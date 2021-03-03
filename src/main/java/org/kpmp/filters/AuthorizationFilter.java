@@ -86,10 +86,14 @@ public class AuthorizationFilter implements Filter {
 		Cookie[] cookies = request.getCookies();
 		User user = shibUserService.getUser(request);
 		String shibId = user.getShibId();
-		if (hasExistingSession(shibId, cookies, request) || allowedEndpoints.contains(request.getRequestURI())
+		if (user.getShibId() == null) {
+			response.sendRedirect(request.getContextPath() + "/Shibboleth.sso/Login");
+		}
+		else if (hasExistingSession(shibId, cookies, request) || allowedEndpoints.contains(request.getRequestURI())
 				|| !isFirstFilePartUpload(request)) {
 			chain.doFilter(request, response);
-		} else {
+		}
+		else {
 			String clientId = env.getProperty(CLIENT_ID_PROPERTY);
 			String uri = userAuthHost + userAuthEndpoint + "/" + clientId + "/" + shibId;
 			try {
