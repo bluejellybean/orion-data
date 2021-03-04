@@ -87,7 +87,7 @@ public class AuthorizationFilter implements Filter {
 		User user = shibUserService.getUser(request);
 		String shibId = user.getShibId();
 		if (user.getShibId() == null) {
-			response.sendRedirect(request.getContextPath() + "/Shibboleth.sso/Login");
+			response.sendError(401, "expired");
 		}
 		else if (hasExistingSession(shibId, cookies, request) || allowedEndpoints.contains(request.getRequestURI())
 				|| !isFirstFilePartUpload(request)) {

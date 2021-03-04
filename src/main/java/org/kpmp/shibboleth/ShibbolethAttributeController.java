@@ -26,9 +26,7 @@ public class ShibbolethAttributeController {
 
 	@RequestMapping(value = "/v1/userInformation", method = RequestMethod.GET)
 	public @ResponseBody User getAttributes(HttpServletRequest request) throws UnsupportedEncodingException {
-
 		logger.logInfoMessage(this.getClass(), null, "Retrieving user information from shibboleth", request);
-
 		User user = shibbolethUserService.getUser(request);
 		return user;
 	}
